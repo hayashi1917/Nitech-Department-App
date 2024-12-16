@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>質問</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/footer.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/quiz.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="quiz">
+        <h1 id="question-num">質問 {{ question_id }} / {{ total_questions }}</h1>
+        <p id="question">{{ question['text'] }}</p>
+        <form method="post" id="quiz-form">
+            {% for option in question['options'] %}
+            <div id="quiz-item">
+                <input type="radio" name="option" value="{{ loop.index0 }}" id="option{{ loop.index0 }}">
+                <label for="option{{ loop.index0 }}">{{ option['text'] }}</label><br>
+            </div>
+            {% endfor %}
+
+            {% if error %}
+                <p style="color:red;">{{ error }}</p>
+            {% endif %}
+            <button type="submit" id="quiz-button">次へ</button>
+        </form>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+.main {
+    text-align: center;
+}
+#dep {
+    font-weight: 400;
+    font-size: 3.5rem;
+}
+#result_chart {
+    margin: 0 auto;
+    width: 100%;
+}
+#canvas_div {
+    width: 85%;
+    margin: 0 auto;
+}
+a {
+    text-decoration: none;
+}
+#retry_shape {
+    height: 25%;
+    width: 35%;
+
+    margin: 1.5% auto;
+    padding: 2% 0;
+
+    background-color: #fcb38b;
+    border-radius: 10px;
+    border: #FFF 2px solid;
+
+    text-align: center;
+    align-items: center;
+    font-size: 2.2rem;
+}
+.gpt {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 3%;
+
+    border: #515151 3px solid;
+    border-radius: 5px;
+    background-color: #FFF;
+}
+#gpt_title {
+    font-size: 2rem;
+}
+#comment {
+    margin: 2% 5%;
+    font-size: 1.3rem;
+    line-height: 2.3rem;
+}

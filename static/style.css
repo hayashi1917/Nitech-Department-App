@@ -1,0 +1,130 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: #0066cc;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+main {
+    flex: 1; /* メインコンテンツの伸縮 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 0; /* ヘッダーとの間隔を0にする場合 */
+}
+
+main h1 {
+    align-self: flex-start; /* 左揃えにする場合は 'flex-start' */
+    margin-top: 0; /* 上部の余白を削除 */
+    margin-bottom: 20px; /* 他の要素との間隔を設定 */
+}
+
+main p {
+    text-align: center; /* テキストを中央揃え */
+    margin-bottom: 20px;
+}
+
+
+footer {
+    font-size: 0.9rem;
+}
+
+
+h1, h2, h3 {
+    font-weight: 700;
+    color: #333;
+    margin: 20px 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.start-button, button[type="submit"], a {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.start-button:hover, button[type="submit"]:hover, a:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 選択肢の間隔を空ける */
+}
+
+input[type="radio"] {
+    display: none; /* ラジオボタン自体を非表示に */
+}
+
+label {
+    display: block;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px 15px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+label:hover {
+    background-color: #007BFF;
+    color: white;
+    border-color: #007BFF;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #28A745;
+    color: white;
+    border-color: #28A745;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .start-button, button[type="submit"] {
+        width: 100%;
+        font-size: 1rem;
+        padding: 15px;
+    }
+}
