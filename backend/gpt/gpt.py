@@ -1,10 +1,11 @@
-from openai import OpenAI
+import openai
+import os
 
+# 環境変数からAPIキーを取得
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
-    client = OpenAI()
-
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {
@@ -25,7 +26,7 @@ def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
                         "CS": {CS},
                     ]
                     EM means Electronics.
-                    PE means Phisics.
+                    PE means Physics.
                     LC means Life Sciences.
                     AC means Sociologies.
                     CS means Computer Sciences.
@@ -38,5 +39,5 @@ def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
 
     return response.choices[0].message.content
 
-
+# 動作確認
 # print(get_GPT_response(EM=56, PE=55, LC=35, AC=15, CS=69))
