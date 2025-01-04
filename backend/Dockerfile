@@ -17,4 +17,7 @@ ENV PYTHONPATH=/code
 FROM builder AS dev-envs
 RUN apk add --no-cache git
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh            
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["flask", "run", "--host=0.0.0.0", "--port=8000"]

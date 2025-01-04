@@ -16,6 +16,15 @@
     <div class="main">
         <h1>クイズ一覧</h1>
         
+        <!-- クイズ一覧を表示 -->
+        <ul>
+            {% for quiz in quizzes %}
+                <li>
+                    <a href="{{ url_for('quiz.start', quiz_id=quiz.id) }}">{{ quiz.university_name }}</a>
+                    （作成日: {{ quiz.created_at.strftime('%Y-%m-%d %H:%M:%S') }}）
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     {% include 'footer.html' %}
 </body>

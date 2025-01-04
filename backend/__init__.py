@@ -22,9 +22,11 @@ def create_app():
     from controllers.quiz import quiz_bp
     from controllers.result import result_bp
     from controllers.create import create_bp
+    from controllers.select import select_bp
     app.register_blueprint(index_bp)
     app.register_blueprint(quiz_bp)
     app.register_blueprint(result_bp)
     app.register_blueprint(create_bp)
+    app.register_blueprint(select_bp)
     
     return app

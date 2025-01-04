@@ -10,7 +10,7 @@ services:
     expose:
       - "3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${DB_PASS}"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${DB_PASS}" ]
       interval: 5s
       retries: 5
       start_period: 30s
@@ -29,5 +29,5 @@ services:
       db:
         condition: service_healthy
     environment:
-      - PYTHONPATH=${PYTHONPATH}  
+      - PYTHONPATH=${PYTHONPATH}
     command: flask run --host=0.0.0.0 --port=8000
