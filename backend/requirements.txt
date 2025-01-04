@@ -9,3 +9,5 @@ mysqlclient==2.1.1
 openai==0.27.0
 PyMySQL==1.1.1
 SQLAlchemy==1.4.31
+Flask-Migrate==4.0.4
+python-dotenv==1.0.0

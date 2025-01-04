@@ -14,18 +14,8 @@
 <body>
     {% include 'header.html' %}
     <div class="main">
-        <h1 id="title">ようこそ！学科適性判定クイズへ</h1>
-        <p id="explain">20の質問に答えて、あなたに最適な学科を見つけましょう。</p>
-        <div id="button-shape">
-            <a href="{{ url_for('quiz.quiz', question_id=1) }}" id="start-button">
-                &nbsp;&nbsp;クイズを開始&nbsp;>
-            </a>
-        </div>
-        <div id="button-shape">
-            <a href="{{ url_for('create.create') }}" id="start-button">
-                &nbsp;&nbsp;クイズを作成&nbsp;>
-            </a>
-        </div>
+        <h1>クイズ一覧</h1>
+        
     </div>
     {% include 'footer.html' %}
 </body>
