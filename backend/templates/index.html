@@ -16,6 +16,12 @@
     <div class="main">
         <h1 id="title">ようこそ！学科適性判定クイズへ</h1>
         <p id="explain">20の質問に答えて、あなたに最適な学科を見つけましょう。</p>
+        {% if current_user.is_authenticated %}
+        <button name="logout" id="logout-button" onclick="location.href='{{ url_for('login.logout') }}'">ログアウト</button>
+        {% else %}
+        <button name="login" id="login-button" onclick="location.href='{{ url_for('login.login') }}'">ログイン</button>
+        <button name="signup" id="signup-button" onclick="location.href='{{ url_for('login.signup') }}'">サインアップ</button>
+        {% endif %}
         <div id="button-shape">
             <a href="{{ url_for('select.select')}}" id="start-button">
                 &nbsp;&nbsp;クイズを開始&nbsp;>

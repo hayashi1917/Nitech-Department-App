@@ -1,15 +1,19 @@
 #!/bin/sh
-set -e  # エラーがあれば即終了
+set -e
 
-echo "=== Checking migrations directory ==="
+echo "=== Checking database state ==="
 if [ ! -d "/code/migrations" ]; then
-  echo "No migrations folder found. Initializing..."
-  flask db init
-  flask db migrate -m "Initial migration"
+    echo "=== Initializing database ==="
+    flask db init
+    flask db migrate -m "Initial migration"
+    flask db upgrade
+else
+    echo "=== Recreating migrations ==="
+    rm -rf /code/migrations/*
+    flask db init
+    flask db migrate -m "Reset migration"
+    flask db upgrade
 fi
-
-echo "=== Upgrading database ==="
-flask db upgrade
 
 echo "=== Starting Flask application ==="
 exec "$@"

@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint
-from model import Quiz 
+from backend.models.model import Quiz 
 
 select_bp = Blueprint('select', __name__)
 

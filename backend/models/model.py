@@ -1,13 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_login import LoginManager, UserMixin
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    hashed_password = db.Column(db.String(80), nullable=False)
+    hashed_password = db.Column(db.String(512), nullable=False)
 
 class Quiz(db.Model):
     __tablename__ = 'quizzes'
