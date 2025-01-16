@@ -15,12 +15,12 @@
     {% include 'header.html' %}
     <div class="quiz">
         <h1 id="question-num">質問 {{ question_id }} / {{ total_questions }}</h1>
-        <p id="question">{{ question['text'] }}</p>
+        <p id="question">{{ questions.question_text }}</p>
         <form method="post" id="quiz-form">
-            {% for option in question['options'] %}
+            {% for option in range(quiz.option_count) %}
             <div id="quiz-item">
                 <input type="radio" name="option" value="{{ loop.index0 }}" id="option{{ loop.index0 }}">
-                <label for="option{{ loop.index0 }}">{{ option['text'] }}</label><br>
+                <label for="option{{ loop.index0 }}">{{ options.option_text }}</label><br>
             </div>
             {% endfor %}
 

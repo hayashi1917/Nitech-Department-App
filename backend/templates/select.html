@@ -20,7 +20,7 @@
         <ul>
             {% for quiz in quizzes %}
                 <li>
-                    <a >{{ quiz.university_name }}</a>
+                    <a href="{{ url_for('quiz.quiz', quiz_id=quiz.id, question_id=1) }}">{{ quiz.university_name }}</a>
                 </li>
             {% endfor %}
         </ul>

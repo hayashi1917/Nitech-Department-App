@@ -34,11 +34,13 @@ def create_app():
     from controllers.create import create_bp
     from controllers.select import select_bp
     from controllers.login import login_bp
+    from controllers.update_delete import update_delete_bp
     app.register_blueprint(index_bp)
     app.register_blueprint(quiz_bp)
     app.register_blueprint(result_bp)
     app.register_blueprint(create_bp)
     app.register_blueprint(select_bp)
     app.register_blueprint(login_bp)
-    
+    app.register_blueprint(update_delete_bp)
+
     return app

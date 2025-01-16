@@ -17,6 +17,7 @@ with open(questions_path, "r", encoding="utf-8") as f:
 with open(departments_path, "r", encoding="utf-8") as f:
     departments = json.load(f)
 
+
 @result_bp.route("/")
 def result():
     responses = session.get("responses", [])
