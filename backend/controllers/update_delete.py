@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, request
-from models.get import get_quizzes
+from ..models.get import get_quizzes
 update_delete_bp = Blueprint('update_delete', __name__)
 
 #@update_delete_bp.route("/update_delete")

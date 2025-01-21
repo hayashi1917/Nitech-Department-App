@@ -3,8 +3,8 @@ import datetime
 from flask import (Blueprint, current_app, flash, jsonify, redirect,
                    render_template, request, session, url_for)
 from flask_login import current_user, login_required
-from models.create import create_quiz
-from models.model import Department, Option, Question, Quiz, Score, db
+from ..models.create import create_quiz
+from ..models.model import Department, Option, Question, Quiz, Score, db
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 

@@ -4,7 +4,7 @@ import os
 # 環境変数からAPIキーを取得
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
+def get_GPT_response(message: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -16,22 +16,8 @@ def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
                 "role": "user",
                 "content": f"""
                     I take a test for getting a suitable department for university.
-                    Please comment about my score.
-                    My Score is below.
-                    [
-                        "EM": {EM},
-                        "PE": {PE},
-                        "LC": {LC},
-                        "AC": {AC},
-                        "CS": {CS},
-                    ]
-                    EM means Electronics.
-                    PE means Physics.
-                    LC means Life Sciences.
-                    AC means Sociologies.
-                    CS means Computer Sciences.
-
-                    Each max score is 80.
+                    {message}
+                    Please comment about my suitable department.
                 """,
             },
         ],
@@ -39,5 +25,4 @@ def get_GPT_response(EM: int, PE: int, LC: int, AC: int, CS: int):
 
     return response.choices[0].message.content
 
-# 動作確認
-# print(get_GPT_response(EM=56, PE=55, LC=35, AC=15, CS=69))
+

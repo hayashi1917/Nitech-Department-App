@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
-from models.model import db, User 
+from .models.model import db, User 
 
 def create_app():
     app = Flask(__name__)
@@ -28,13 +28,13 @@ def create_app():
     # Flask-Migrate の初期化
     migrate = Migrate(app, db)
 
-    from controllers.index import index_bp
-    from controllers.quiz import quiz_bp
-    from controllers.result import result_bp
-    from controllers.create import create_bp
-    from controllers.select import select_bp
-    from controllers.login import login_bp
-    from controllers.update_delete import update_delete_bp
+    from .controllers.index import index_bp
+    from .controllers.quiz import quiz_bp
+    from .controllers.result import result_bp
+    from .controllers.create import create_bp
+    from .controllers.select import select_bp
+    from .controllers.login import login_bp
+    from .controllers.update_delete import update_delete_bp
     app.register_blueprint(index_bp)
     app.register_blueprint(quiz_bp)
     app.register_blueprint(result_bp)

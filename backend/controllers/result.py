@@ -1,56 +1,69 @@
 import os
-from flask import render_template, session, Blueprint
+from flask import render_template, session, Blueprint, flash, redirect, url_for
 import json
-from gpt.gpt import get_GPT_response
+from ..gpt.gpt import get_GPT_response
+from ..models.get import get_quiz
 
 result_bp = Blueprint('result', __name__, url_prefix='/result')
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-base_dir = os.path.dirname(current_dir)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# base_dir = os.path.dirname(current_dir)
 
-questions_path = os.path.join(base_dir, 'data', 'questions.json')
-departments_path = os.path.join(base_dir, 'data', 'departments.json')
+# questions_path = os.path.join(base_dir, 'data', 'questions.json')
+# departments_path = os.path.join(base_dir, 'data', 'departments.json')
 
-with open(questions_path, "r", encoding="utf-8") as f:
-    questions = json.load(f)
+# with open(questions_path, "r", encoding="utf-8") as f:
+#     questions = json.load(f)
 
-with open(departments_path, "r", encoding="utf-8") as f:
-    departments = json.load(f)
+# with open(departments_path, "r", encoding="utf-8") as f:
+#     departments = json.load(f)
 
 
-@result_bp.route("/")
-def result():
-    responses = session.get("responses", [])
-    department_scores = {dept: 0 for dept in departments.keys()}
-    print(f"Responses: {responses}")
+@result_bp.route("/<quiz_id>")
+def result(quiz_id):
+    total_scores = session.get("total_scores", {})
+    
+    if not total_scores:
+        flash("スコアデータが見つかりませんでした。")
+        return redirect(url_for("select.select"))
 
-    for i, selected_option_index in enumerate(responses):
-        option = questions[i]["options"][selected_option_index]
-        for dept, points in option["score"].items():
-            department_scores[dept] += points
-
-    max_score = max(department_scores.values())
-
+    # スコアの最大値を取得
+    max_score = max(info['score'] for info in total_scores.values())
+    
+    # 最高スコアの学科を取得
     best_departments = [
-        dept for dept, score in department_scores.items() if score == max_score
+        info['department_name'] 
+        for info in total_scores.values() 
+        if info['score'] == max_score
     ]
-
-    gpt_comment = get_GPT_response(
-        EM=department_scores["EM"],
-        PE=department_scores["PE"],
-        LC=department_scores["LC"],
-        AC=department_scores["AC"],
-        CS=department_scores["CS"],
-    )
-
-    department_scores_str = ""
-    for dept, score in department_scores.items():
-        department_scores_str += dept + ":" + str(score) + ","
-
+    print("best_departments:",best_departments)
+    
+    best_departments_str = json.dumps(best_departments, ensure_ascii=False)
+    print("best_departments_str:",best_departments_str)
+    department_str = ""
+    for dept_id, info in total_scores.items():
+        department_str += f"{info['department_name']}:{info['score']},"
+    department_str = department_str.rstrip(',') 
+    print("department_str:",department_str)
+    department_names_str = json.dumps(total_scores, ensure_ascii=False)
+    print("department_names_str:",department_names_str)
+    
+    quiz = get_quiz(quiz_id)
+    university_name = quiz.university_name
+    print("university_name:",university_name)
+    
+    
+    message = f"university_name: {university_name}, \n score: {department_str}"
+    
+    gpt_comment = get_GPT_response(message)
+    print("gpt_comment:",gpt_comment)
+    print("best_departments_str:",best_departments_str)
+    print("department_str:",department_str)
+    print("department_names_str:",department_names_str)
     return render_template(
         "result.html",
-        departments=best_departments,
-        department_str=department_scores_str,
-        department_names=departments,
-        gpt_comment=gpt_comment,
+        departments=best_departments_str,
+        department_str=department_str,
+        department_names=department_names_str,
+        gpt_comment=gpt_comment
     )

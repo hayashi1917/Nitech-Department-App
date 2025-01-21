@@ -1,27 +1,102 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>結果</title>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script src="js/result.js"></script> -->
     <!-- <link src="stylesheet" href="../static/style/result.css"/> -->
-    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
-    
+    <!--<script src="{{ url_for('static', filename='js/result.js') }}"></script>-->
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style/result.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/footer.css') }}">
 </head>
+
 <body>
     {% include 'header.html' %}
     <script>
-        const scores = "{{ departments}}";
-        const score_str = "{{ department_str }}"
-        const names = "{{ department_names }}";
-        const gpt = `{{ gpt_comment }}`
-        isLoad = true;
+        const scores = JSON.parse('{{ departments | safe }}');  // ["情報"] の形式
+        const score_str = "{{ department_str }}";  // "情報:210,電気機械:150,..." の形式
+        const names = JSON.parse('{{ department_names | safe }}');  // {"3": {"department_name": "情報", "score": 210}, ...} の形式
+        const gpt = `{{ gpt_comment }}`;
+
+        window.onload = function () {
+            // 最適な学科の表示
+            const bestDepElement = document.getElementById('best_dep');
+            if (Array.isArray(scores) && scores.length > 0) {
+                bestDepElement.textContent = 'あなたに適した学科は: ' +
+                    scores.map(dept => {
+                        for (const key in names) {
+                            if (names[key].department_name === dept) {
+                                return `${dept}（${names[key].score}点）`;
+                            }
+                        }
+                        return dept;
+                    }).join('、');
+            } else {
+                bestDepElement.textContent = 'あなたに適した学科は: データが見つかりません';
+            }
+
+            // GPTコメントの表示
+            const commentElement = document.getElementById('comment');
+            if (gpt) {
+                commentElement.textContent = gpt;
+            }
+
+            // グラフの表示
+            const canvas = document.getElementById('result_chart');
+            const ctx = canvas.getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: getChartData(),
+                options: getChartOptions()
+            });
+
+            function getChartData() {
+                const labels = [];
+                const scores = [];
+
+                // namesオブジェクトから学科名とスコアを取得
+                for (const key in names) {
+                    labels.push(names[key].department_name);
+                    scores.push(names[key].score);
+                }
+
+                return {
+                    labels: labels,
+                    datasets: [{
+                        label: '学科適性スコア',
+                        data: scores,
+                        backgroundColor: 'rgba(0, 255, 0, 0.6)',
+                        borderColor: 'rgba(0, 255, 0, 0.8)',
+                        borderWidth: 1
+                    }]
+                };
+            }
+
+            function getChartOptions() {
+                return {
+                    indexAxis: 'y',  // 横向きの棒グラフにする
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                };
+            }
+        };
     </script>
     <div class="main">
         <div id="dep">
@@ -32,7 +107,7 @@
             <p id="gpt_title">ChatGPTのコメント</p>
             <p id="comment"></p>
         </div>
-        
+
         <div id="retry_shape">
             <a href="{{ url_for('index.index') }}" id="retry">もう一度やり直す</a>
         </div>
@@ -41,5 +116,6 @@
         </div>
     </div>
     {% include 'footer.html' %}
-  </body>
+</body>
+
 </html>

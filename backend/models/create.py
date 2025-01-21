@@ -1,7 +1,7 @@
 import logging
 
 from flask_sqlalchemy import SQLAlchemy
-from models.model import Department, Option, Question, Quiz, Score, db
+from .model import Department, Option, Question, Quiz, Score, db
 from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)

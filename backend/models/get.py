@@ -1,4 +1,4 @@
-from models.model import User, Quiz, Department, Question, Option, Score
+from .model import User, Quiz, Department, Question, Option, Score
 
 def get_user(id):
     return User.query.filter_by(id=id).first()
