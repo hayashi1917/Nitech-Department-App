@@ -1,6 +1,5 @@
-from flask import (Blueprint, redirect, render_template, request, session, url_for)
-from flask_login import current_user, login_user, logout_user
-from ..models.model import User
+from flask import (Blueprint, redirect, render_template, request, url_for)
+from flask_login import current_user, logout_user
 from ..models.user import user_login, user_signup
 
 login_bp = Blueprint('login', __name__, url_prefix='/login')

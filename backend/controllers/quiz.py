@@ -1,6 +1,6 @@
-from flask import (Blueprint, flash, redirect, render_template, request,
+from flask import (Blueprint, redirect, render_template, request,
                 session, url_for)
-from flask_login import current_user, login_required
+from flask_login import login_required
 from ..models.get import get_departments, get_options, get_questions, get_scores, get_quizzes, get_quiz
 
 quiz_bp = Blueprint('quiz', __name__, url_prefix='/quiz')

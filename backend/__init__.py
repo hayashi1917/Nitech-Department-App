@@ -35,6 +35,7 @@ def create_app():
     from .controllers.select import select_bp
     from .controllers.login import login_bp
     from .controllers.update_delete import update_delete_bp
+    from .controllers.showquiz import showquiz_bp
     app.register_blueprint(index_bp)
     app.register_blueprint(quiz_bp)
     app.register_blueprint(result_bp)
@@ -42,5 +43,5 @@ def create_app():
     app.register_blueprint(select_bp)
     app.register_blueprint(login_bp)
     app.register_blueprint(update_delete_bp)
-
+    app.register_blueprint(showquiz_bp)
     return app

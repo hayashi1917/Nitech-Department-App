@@ -6,19 +6,6 @@ from ..models.get import get_quiz
 
 result_bp = Blueprint('result', __name__, url_prefix='/result')
 
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-# base_dir = os.path.dirname(current_dir)
-
-# questions_path = os.path.join(base_dir, 'data', 'questions.json')
-# departments_path = os.path.join(base_dir, 'data', 'departments.json')
-
-# with open(questions_path, "r", encoding="utf-8") as f:
-#     questions = json.load(f)
-
-# with open(departments_path, "r", encoding="utf-8") as f:
-#     departments = json.load(f)
-
-
 @result_bp.route("/<quiz_id>")
 def result(quiz_id):
     total_scores = session.get("total_scores", {})

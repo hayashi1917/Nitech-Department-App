@@ -1,10 +1,8 @@
-import datetime
-
-from flask import (Blueprint, current_app, flash, jsonify, redirect,
+from flask import (Blueprint,flash, redirect,
                    render_template, request, session, url_for)
 from flask_login import current_user, login_required
 from ..models.create import create_quiz
-from ..models.model import Department, Option, Question, Quiz, Score, db
+from ..models.model import db
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 
@@ -15,6 +13,14 @@ create_bp = Blueprint('create', __name__)
 @create_bp.route('/step1', methods=['GET', 'POST'])
 @login_required
 def step1():
+    """
+    クイズ作成の最初のステップ - クイズの基本情報の入力
+    
+    Returns:
+        GET: クイズ作成フォーム
+        POST: 次のステップへのリダイレクト
+    """
+    
     print("Current session at start of step1:", session.get('data'))
     
     if 'data' not in session:
@@ -33,7 +39,7 @@ def step1():
             session['data']['quiz'] = form_data
             session.modified = True
             
-            print("Session after saving quiz data:", session.get('data'))
+            print("データ入力後のセッション:", session.get('data'))
             
             return redirect(url_for('create.step2'))
             
@@ -47,6 +53,14 @@ def step1():
 @create_bp.route('/step2', methods=['GET', 'POST'])
 @login_required
 def step2():
+    """
+    クイズ作成の第二ステップ - 学部の入力
+    
+    Returns:
+        GET: 学部入力フォーム
+        POST: 次のステップへのリダイレクト
+    """
+    
     if request.method == 'POST':
         departments = request.form.getlist('departments[]')
         session['data']['departments'] = departments
@@ -59,6 +73,14 @@ def step2():
 @create_bp.route('/step3', methods=['GET', 'POST'])
 @login_required
 def step3():
+    """
+    クイズ作成の第三ステップ - 質問の入力
+    
+    Returns:
+        GET: 質問入力フォーム
+        POST: 次のステップへのリダイレクト
+    """
+    
     if request.method == 'POST':
         questions = request.form.getlist('questions[]')
         session['data']['questions'] = questions
@@ -78,9 +100,6 @@ def step4():
         GET: スコア入力フォーム
         POST: クイズ保存後のリダイレクト
     """
-    if not _validate_quiz_session():
-        flash('最初のステップから入力してください。', 'warning')
-        return redirect(url_for('create.step1'))
 
     try:
         if request.method == 'POST':
@@ -143,11 +162,10 @@ def step4():
                 return redirect(url_for('index.index'))
                 
             except (SQLAlchemyError, ValueError) as e:
-                db.session.rollback()
+                db.session.rollback() 
                 flash(f'クイズの保存に失敗しました: {str(e)}', 'error')
                 return redirect(url_for('create.step4'))
         
-        # GETリクエスト時のレンダリング
         return render_template(
             'step4.html',
             questions=session['data']['questions'],
@@ -160,89 +178,3 @@ def step4():
         logger.error(f"Unexpected error in step4: {str(e)}")
         flash('予期せぬエラーが発生しました。', 'error')
         return redirect(url_for('create.step1'))
-
-def _validate_quiz_session():
-    """クイズセッションデータの検証"""
-    try:
-        if 'data' not in session:
-            return False
-        if 'quiz' not in session['data']:
-            return False
-            
-        required_fields = [
-            'university_name', 
-            'department_count', 
-            'question_count', 
-            'option_count', 
-            'created_by'
-        ]
-        
-        return all(
-            field in session['data']['quiz'] 
-            for field in required_fields
-        )
-    except Exception:
-        return False
-
-def _get_current_step():
-    """現在のステップを判定"""
-    if 'data' not in session:
-        return 1
-    data = session['data']
-    if 'quiz' not in data:
-        return 1
-    if 'departments' not in data:
-        return 2
-    if 'questions' not in data:
-        return 3
-    return 4
-
-def _get_missing_fields():
-    """必要なフィールドの欠落をチェック"""
-    required_fields = {
-        'quiz': ['university_name', 'department_count', 
-                'question_count', 'option_count', 'created_by'],
-        'departments': [],
-        'questions': []
-    }
-    
-    missing = {}
-    data = session.get('data', {})
-    
-    for section, fields in required_fields.items():
-        if section not in data:
-            missing[section] = 'section_missing'
-        elif fields:
-            missing[section] = [
-                field for field in fields 
-                if field not in data[section]
-            ]
-            
-    return missing
-
-@create_bp.route('/debug/session', methods=['GET'])
-@login_required
-def debug_session():
-    """開発環境でセッションの状態を確認するためのエンドポイント"""
-    if not current_app.debug:
-        return jsonify({'error': 'Debug endpoint is disabled in production'}), 403
-        
-    debug_data = {
-        'timestamp': datetime.datetime.now().isoformat(),
-        'session_data': {
-            'data': session.get('data'),
-            'session_keys': list(session.keys()),
-        },
-        'session_status': {
-            'has_data': 'data' in session,
-            'has_quiz': 'quiz' in session.get('data', {}),
-            'current_step': _get_current_step(),
-        },
-        'quiz_data': session.get('data', {}).get('quiz', {}),
-        'validation': {
-            'is_valid': _validate_quiz_session(),
-            'missing_fields': _get_missing_fields()
-        }
-    }
-    
-    return jsonify(debug_data)

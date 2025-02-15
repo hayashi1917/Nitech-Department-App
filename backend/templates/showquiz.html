@@ -21,15 +21,15 @@
     {% include 'header.html' %}
 
     <div class="container my-5">
-        <h1 class="mb-4 text-center">クイズ一覧</h1>
+        <h1 class="mb-4 text-center">作成したクイズ一覧</h1>
         <div class="list-group">
             {% for quiz in quizzes %}
             <a href="{{ url_for('quiz.quiz', quiz_id=quiz.id, question_id=1) }}"
-                class="list-group-item list-group-item-action" 
-                {% if quiz.created_by==current_user.id %} 
-                
-                {%endif %}>
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 {{ quiz.university_name }}
+                {% if quiz.created_by == current_user.id %}
+                <button class="btn btn-danger btn-sm" onclick="deleteQuiz({{ quiz.id }})">削除</button>
+                {% endif %}
             </a>
             {% endfor %}
         </div>
@@ -46,6 +46,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        function deleteQuiz(quizId) {
+            if (confirm('このクイズを削除してもよろしいですか？')) {
+                window.location.href = `/delete/${quizId}`;
+            }
+        }
+    </script>
 </body>
 
 </html>
