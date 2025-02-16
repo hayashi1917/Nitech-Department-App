@@ -1,5 +1,4 @@
 from flask import Blueprint, redirect, url_for
-from ..models.get import get_quiz
 from ..models.delete import delete_quiz
 
 update_delete_bp = Blueprint('update_delete', __name__)

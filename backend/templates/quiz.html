@@ -10,32 +10,57 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style/quiz.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style/footer.css') }}">
+  <style>
+    .quiz-card {
+      max-width: 700px;
+      margin: auto;
+    }
+    .option-label {
+      font-size: 1.1rem;
+    }
+    .progress-container {
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
   {% include 'header.html' %}
   <main class="flex-grow-1">
     <div class="container py-5">
-      <div class="mb-4">
-        <h2>質問 {{ question_id }} / {{ total_questions }}</h2>
-        <p class="lead">{{ question.question_text }}</p>
-      </div>
-      <form method="post" id="quiz-form">
-        <div class="mb-3">
-          {% for option in range(quiz.option_count) %}
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="option" 
-                     value="{{ loop.index0 }}" id="option{{ loop.index0 }}">
-              <label class="form-check-label" for="option{{ loop.index0 }}">
-                {{ options[loop.index0].option_text }}
-              </label>
+      <div class="quiz-card card shadow-sm">
+        <div class="card-body">
+          <div class="progress-container">
+            <h2 class="card-title mb-3">質問 {{ question_id }} / {{ total_questions }}</h2>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" 
+                   style="width: {{ (question_id/total_questions*100)|round }}%;" 
+                   aria-valuenow="{{ question_id }}" aria-valuemin="0" aria-valuemax="{{ total_questions }}">
+              </div>
             </div>
-          {% endfor %}
+          </div>
+          <!-- 質問文 -->
+          <p class="card-text lead mt-4">{{ question.question_text }}</p>
+          <!-- 回答フォーム -->
+          <form method="post" id="quiz-form">
+            <div class="mb-4">
+              {% for option in range(quiz.option_count) %}
+                <div class="form-check my-2">
+                  <input class="form-check-input" type="radio" name="option" value="{{ loop.index0 }}" id="option{{ loop.index0 }}">
+                  <label class="form-check-label option-label" for="option{{ loop.index0 }}">
+                    {{ options[loop.index0].option_text }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+            {% if error %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">次へ</button>
+            </div>
+          </form>
         </div>
-        {% if error %}
-          <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
-        <button type="submit" class="btn btn-primary">次へ</button>
-      </form>
+      </div>
     </div>
   </main>
   {% include 'footer.html' %}

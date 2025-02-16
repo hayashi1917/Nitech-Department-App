@@ -1,6 +1,4 @@
 import logging
-
-from flask_sqlalchemy import SQLAlchemy
 from .model import Department, Option, Question, Quiz, Score, db
 from sqlalchemy.exc import SQLAlchemyError
 

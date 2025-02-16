@@ -10,22 +10,38 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style/footer.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* カードホバー時の拡大エフェクト */
+    .card-hover {
+      transition: transform 0.2s ease-in-out;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
   {% include 'header.html' %}
   <main class="flex-grow-1">
     <div class="container my-5">
       <h1 class="mb-4 text-center">作成したクイズ一覧</h1>
-      <div class="list-group">
+      <div class="row g-4">
         {% for quiz in quizzes %}
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('quiz.quiz', quiz_id=quiz.id, question_id=1) }}" 
-               class="stretched-link text-decoration-none">
-              {{ quiz.university_name }}
-            </a>
-            {% if quiz.created_by == current_user.id %}
-              <button class="btn btn-danger btn-sm" onclick="deleteQuiz({{ quiz.id }})">削除</button>
-            {% endif %}
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card card-hover h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ quiz.university_name }}</h5>
+                <a href="{{ url_for('quiz.quiz', quiz_id=quiz.id, question_id=1) }}" class="stretched-link"></a>
+              </div>
+              {% if quiz.created_by == current_user.id %}
+                <div class="card-footer text-end">
+                  <button class="btn btn-danger btn-sm" onclick="deleteQuiz({{ quiz.id }})">
+                    <i class="fas fa-trash-alt"></i> 削除
+                  </button>
+                </div>
+              {% endif %}
+            </div>
           </div>
         {% endfor %}
       </div>
