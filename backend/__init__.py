@@ -12,7 +12,8 @@ def create_app():
     db_pass = os.environ.get("DB_PASS", "password")
     db_host = os.environ.get("DB_HOST", "localhost")
     db_name = os.environ.get("DB_NAME", "app_db")
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{db_user}:{db_pass}@{db_host}/{db_name}'
+
 
     db.init_app(app)
     login_manager = LoginManager()

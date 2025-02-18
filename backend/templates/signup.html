@@ -14,21 +14,23 @@
   {% include 'header.html' %}
   <main class="flex-grow-1">
     <div class="container my-5">
+      
       <h1 class="mb-4 text-center">サインアップ</h1>
       <form method="POST" action="{{ url_for('login.signup') }}">
         <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email" name="username" required>
-          <div class="form-text">We'll never share your email with anyone else.</div>
+          <label for="username" class="form-label">メールアドレス</label>
+          <input type="text" class="form-control" id="username" placeholder="メールアドレスを入力してください" name="username" required>
+          <div class="form-text">メールアドレスを入力してください</div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+          <label for="password" class="form-label">パスワード</label>
+          <input type="password" class="form-control" id="password" placeholder="パスワードを入力してください" name="password" required>
         </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="check">
-          <label class="form-check-label" for="check">Check me out</label>
+        {% if error %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {{ error }}
         </div>
+        {% endif %}
         <button type="submit" class="btn btn-primary">サインアップ</button>
       </form>
     </div>

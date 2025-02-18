@@ -11,10 +11,16 @@ def user_login(username, password):
         return False
 
 def user_signup(username, password):
+    # 既存のユーザーがあるかチェック
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        return False  # 既に存在するのでFalseを返す
+
     hashed_password = generate_password_hash(password)
     new_user = User(username=username, hashed_password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
+    return True
 
 def user_logout():
     logout_user()
