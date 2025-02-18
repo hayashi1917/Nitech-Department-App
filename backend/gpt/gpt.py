@@ -5,8 +5,9 @@ import os
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def get_GPT_response(message: str):
+    #GPTのレスポンスを取得
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[
             {
                 "role": "system",

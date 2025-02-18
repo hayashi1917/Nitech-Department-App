@@ -5,7 +5,9 @@ from ..models.get import get_quiz
 
 result_bp = Blueprint('result', __name__, url_prefix='/result')
 
-@result_bp.route("/<quiz_id>")
+@result_bp.route("/<quiz_id>")  
+#結果を表示
+
 def result(quiz_id):
     total_scores = session.get("total_scores", {})
     
@@ -26,6 +28,7 @@ def result(quiz_id):
     best_departments_str = json.dumps(best_departments, ensure_ascii=False)
 
     department_str = ""
+    #(学科名:スコア,学科名:スコア,学科名:スコア)の形式に変換
     for info in total_scores.values():
         department_str += f"{info['department_name']}:{info['score']},"
     department_str = department_str.rstrip(',') 

@@ -5,6 +5,7 @@ from ..models.user import user_login, user_signup
 login_bp = Blueprint('login', __name__, url_prefix='/login')
 
 @login_bp.route("/", methods=['GET', 'POST'])
+#ログイン画面を表示
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("index.index"))
@@ -20,11 +21,13 @@ def login():
     return render_template("login.html")
 
 @login_bp.route("/logout")
+#ログアウト
 def logout():
     logout_user()
     return redirect(url_for("login.login"))
 
 @login_bp.route("/signup", methods=['GET', 'POST'])
+#新規登録画面を表示
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for("index.index"))
