@@ -36,7 +36,7 @@
 
 ---
 ## 主な機能
-  詳細な機能は、[こちらのQiita記事](https://qiita.com/hayashi1917/items/793d0252fc930c7451ed)に記載しています。
+  詳細な機能は、[こちらのQiita記事]([https://qiita.com/hayashi1917/items/793d0252fc930c7451ed](https://qiita.com/hayashi1917/items/0331fc131b313b23792e))に記載しています。
 
 ---
 ## 使用技術
