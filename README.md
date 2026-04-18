@@ -5,7 +5,7 @@
 ---
 
 ## サービスのURL
-
+(現在は無料枠終了のため動作せず)
 - **URL**: [https://nitech-department-app.onrender.com/](https://nitech-department-app.onrender.com/)
 - **ログイン情報**:
   - メールアドレス: `test@test.com`
