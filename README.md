@@ -95,6 +95,7 @@ pip install -r requirements.txt
 プロジェクトのルートディレクトリに `.env` ファイルを作成し、以下の内容を記述してください:
 ```dotenv
 OPENAI_API_KEY=
+DATABASE_URL=
 DB_HOST=
 DB_USER=
 DB_PASS=
@@ -103,6 +104,7 @@ FLASK_APP=
 SECRET_KEY=
 ```
 ※ 必要に応じて各値を適切に設定してください。
+※ Render では `DATABASE_URL` に Render Postgres の Internal Database URL を設定してください。`DATABASE_URL` がある場合は `DB_HOST` / `DB_USER` / `DB_PASS` / `DB_NAME` より優先されます。
 
 ### 6. Flask の起動
 以下のコマンドで Flask アプリケーションを起動します:
@@ -112,5 +114,4 @@ flask run
 通常、[http://localhost:5000](http://localhost:5000) でアクセスできます。
 
 ---
-
 
