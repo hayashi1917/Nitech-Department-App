@@ -45,7 +45,6 @@
 - クイズ作成画面
 <img width="837" height="423" alt="スクリーンショット 2026-04-22 14 35 32" src="https://github.com/user-attachments/assets/f2ebb6ce-cb19-488a-942c-7b20ca7ba20d" />
 - 診断結果画面
-<img width="1448" height="1086" alt="ChatGPT Image 2026年4月22日 14_37_29" src="https://github.com/user-attachments/assets/f18ed8d4-0040-4ddd-9306-a1cf55d4b2ab" />
 <img width="1659" height="856" alt="スクリーンショット 2026-04-22 14 36 11" src="https://github.com/user-attachments/assets/08f3ced1-8a55-4358-9e35-212ff22f32af" />
 
 
