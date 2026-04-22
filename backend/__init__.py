@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
+import click
 import os
 from .models.model import db, User
 
@@ -40,6 +41,11 @@ def create_app():
 
     # Flask-Migrate の初期化
     migrate = Migrate(app, db)
+
+    @app.cli.command("init-db")
+    def init_db():
+        db.create_all()
+        click.echo("Initialized the database.")
 
     from .controllers.index import index_bp
     from .controllers.quiz import quiz_bp
