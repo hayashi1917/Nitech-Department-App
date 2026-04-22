@@ -3,6 +3,8 @@
 受験生が自分に合う大学の学科を見つけるための、適性診断クイズ作成・回答アプリケーションです。
 
 ユーザーは大学・学科・質問・選択肢・スコアを設定してオリジナルの学科診断クイズを作成できます。受験生は公開されたクイズに回答し、スコアが最も高い学科と AI コメントを確認できます。
+(API料金制限のため、AI機能は停止中)
+
 
 ## 目次
 
@@ -14,7 +16,6 @@
 - [環境構築手順](#環境構築手順)
 - [Render でのデプロイ設定](#render-でのデプロイ設定)
 - [こだわり・工夫した点](#こだわり工夫した点)
-- [ダイアグラム](#ダイアグラム)
 - [API・ルーティング一覧](#apiルーティング一覧)
 - [今後の展望](#今後の展望)
 
@@ -38,9 +39,15 @@
 ## デモ動画・スクリーンショット
 
 - トップページ
+ <img width="1669" height="849" alt="スクリーンショット 2026-04-22 14 34 36" src="https://github.com/user-attachments/assets/e8c25069-f8e4-4f79-9af4-165eceab1b3e" />
 - クイズ一覧画面
+<img width="1676" height="850" alt="スクリーンショット 2026-04-22 14 35 21" src="https://github.com/user-attachments/assets/304b22a1-ce97-4843-8785-8afd6a9c4333" />
 - クイズ作成画面
+<img width="837" height="423" alt="スクリーンショット 2026-04-22 14 35 32" src="https://github.com/user-attachments/assets/f2ebb6ce-cb19-488a-942c-7b20ca7ba20d" />
 - 診断結果画面
+<img width="1448" height="1086" alt="ChatGPT Image 2026年4月22日 14_37_29" src="https://github.com/user-attachments/assets/f18ed8d4-0040-4ddd-9306-a1cf55d4b2ab" />
+<img width="1659" height="856" alt="スクリーンショット 2026-04-22 14 36 11" src="https://github.com/user-attachments/assets/08f3ced1-8a55-4358-9e35-212ff22f32af" />
+
 
 ## 主な機能
 
@@ -183,71 +190,9 @@ gunicorn -b 0.0.0.0:$PORT run:app
 - 学科数、質問数、選択肢数を可変にし、大学や目的に合わせた診断クイズを作れるようにしました。
 - 選択肢ごとに各学科へのスコアを設定し、回答結果から最も適性が高い学科を算出します。
 - 診断結果に OpenAI API のコメントを加え、単なるスコア表示だけでなく受験生向けの補足説明を表示します。
-- OpenAI API の利用上限や一時的な失敗が発生しても、診断結果ページ自体は表示できるようにしています。
-- Render 環境では `DATABASE_URL` を優先して読み込むことで、PostgreSQL 接続設定をシンプルにしました。
-
-## ダイアグラム
 
 ### ER図
-
-```plantuml
-@startuml
-
-entity "users" {
-  *id : INTEGER <<PK>>
-  --
-  *username : VARCHAR(80) <<UQ>>
-  *hashed_password : VARCHAR(512)
-}
-
-entity "quizzes" {
-  *id : INTEGER <<PK>>
-  --
-  *university_name : VARCHAR(256)
-  department_count : INTEGER
-  question_count : INTEGER
-  option_count : INTEGER
-  created_by : INTEGER <<FK>>
-}
-
-entity "departments" {
-  *id : INTEGER <<PK>>
-  --
-  *department_name : VARCHAR(256)
-  *quiz_id : INTEGER <<FK>>
-}
-
-entity "questions" {
-  *id : INTEGER <<PK>>
-  --
-  *question_text : VARCHAR(256)
-  *quiz_id : INTEGER <<FK>>
-}
-
-entity "options" {
-  *id : INTEGER <<PK>>
-  --
-  *option_text : VARCHAR(256)
-  *question_id : INTEGER <<FK>>
-}
-
-entity "scores" {
-  *id : INTEGER <<PK>>
-  --
-  *score : INTEGER
-  *department_id : INTEGER <<FK>>
-  *option_id : INTEGER <<FK>>
-}
-
-users ||--o{ quizzes : creates
-quizzes ||--o{ departments : has
-quizzes ||--o{ questions : contains
-questions ||--o{ options : has
-departments ||--o{ scores : achieves
-options ||--o{ scores : receives
-
-@enduml
-```
+<img width="1448" height="1086" alt="ChatGPT Image 2026年4月22日 14_37_29" src="https://github.com/user-attachments/assets/4983edd1-2128-4cc7-bb2b-d49fb624a562" />
 
 ## API・ルーティング一覧
 
